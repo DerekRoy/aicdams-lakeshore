@@ -5,6 +5,7 @@ gem 'rails', '4.2.7.1'
 # Hydra Gems
 gem 'sufia', '~> 7.2'
 gem 'flipflop', git: 'https://github.com/jcoyne/flipflop.git', branch: 'hydra'
+gem 'hydra-head', '~> 10.4'
 
 gem 'blacklight_range_limit'
 gem 'coffee-rails', '~> 4.2'
@@ -24,7 +25,6 @@ gem 'turbolinks'
 gem 'uglifier', '~> 3.0'
 gem 'riiif'
 gem 'iiif_manifest', '~> 0.1.2'
-
 
 group :development, :test do
   gem 'better_errors'
