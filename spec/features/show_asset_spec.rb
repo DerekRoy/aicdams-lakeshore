@@ -88,8 +88,6 @@ describe "Displaying an asset" do
       expect(page).to have_selector("li.aic_depositor", text: asset.aic_depositor.nick)
       expect(page).to have_selector("li.alt_label", text: asset.alt_label.first)
       expect(page).to have_selector("li.batch_uid", text: asset.batch_uid)
-      expect(page).to have_selector("li.create_date", text: asset.create_date.strftime("%m/%d/%Y"))
-      expect(page).to have_selector("li.modified_date", text: asset.modified_date.strftime("%m/%d/%Y"))
       expect(page).to have_selector("li.language", text: asset.language.first)
       expect(page).to have_selector("li.publish_channels", text: asset.publish_channels.first.pref_label)
       expect(page).to have_selector("li.view_notes", text: asset.view_notes.first)
@@ -104,6 +102,14 @@ describe "Displaying an asset" do
       expect(page).to have_selector("li.licensing_restrictions", text: asset.licensing_restrictions.first.pref_label)
       expect(page).to have_selector("li.public_domain", text: "No")
       expect(page).to have_selector("li.copyright_representatives", text: asset.copyright_representatives.first.pref_label)
+
+      # Dates
+      expect(page).to have_content("Deposit date")
+      expect(page).to have_selector("li.create_date", text: asset.create_date.strftime("%m/%d/%Y"))
+      expect(page).to have_content("File creation date")
+      expect(page).to have_selector("li.created", text: asset.created.strftime("%m/%d/%Y"))
+      expect(page).to have_content("Modified date")
+      expect(page).to have_selector("li.modified_date", text: asset.modified_date.strftime("%m/%d/%Y"))
     end
   end
 end

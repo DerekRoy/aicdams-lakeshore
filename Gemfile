@@ -24,6 +24,9 @@ gem 'sass-rails', '~> 5.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'uglifier', '~> 3.0'
 
+# jQuery Inputmask plugin, version: 3.3.6-0
+gem 'jquery-inputmask-rails', github: 'knapo/jquery-inputmask-rails', ref: '20df4fa3'
+
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'

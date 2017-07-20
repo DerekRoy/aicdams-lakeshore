@@ -29,6 +29,7 @@ describe "Editing assets" do
     expect(page).to have_field("View Notes", with: asset.view_notes.first)
     expect(page).to have_field("Visual Surrogate", with: asset.visual_surrogate)
     expect(page).to have_field("Caption", with: asset.caption)
+    expect(page).to have_field("File Creation Date", with: asset.created)
 
     expect(page).not_to have_content('string multi_value optional form-control generic_work_alt_label form-control multi-text-field')
 
@@ -39,6 +40,9 @@ describe "Editing assets" do
     within("div.generic_work_caption") do
       expect(page).to have_content("Non-Object Caption")
       expect(page).to have_content("A 30-character alphanumeric string serving as a caption for the asset")
+    end
+    within("div.generic_work_created") do
+      expect(page).to have_content("Date the asset was originally created")
     end
 
     click_link "Files"

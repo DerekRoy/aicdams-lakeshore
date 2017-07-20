@@ -189,6 +189,7 @@ en:
         public_domain:          "Public Domain"
         licensing_restriction_uris: "Licensing Restrictions"
         caption:                "Non-Object Caption"
+        created:                "File Creation Date"
       generic_work:
         <<: *asset
       batch_upload_item:
@@ -233,6 +234,7 @@ en:
         public_domain: "Indicates asset is in the public domain"
         licensing_restriction_uris: "Licenses that restrict access to this asset."
         caption: "A 30-character alphanumeric string serving as a caption for the asset"
+        created: "Date the asset was originally created"
       generic_work:
         <<: *asset
       batch_upload_item:

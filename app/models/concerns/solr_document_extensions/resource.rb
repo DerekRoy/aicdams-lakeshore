@@ -10,6 +10,10 @@ module SolrDocumentExtensions::Resource
     Array(self[Solrizer.solr_name('contributors', :stored_searchable)])
   end
 
+  def created
+    date_field('created')
+  end
+
   def created_by
     Array(self[Solrizer.solr_name('batch_uid', :stored_searchable)]).first
   end

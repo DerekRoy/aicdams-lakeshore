@@ -12,6 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require inputmask
+//= require jquery.inputmask
 //= require dataTables/jquery.dataTables
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 // Required by Blacklight

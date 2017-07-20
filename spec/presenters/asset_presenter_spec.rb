@@ -37,6 +37,7 @@ describe AssetPresenter do
   it { is_expected.to delegate_method(:public_domain?).to(:solr_document) }
   it { is_expected.to delegate_method(:copyright_representatives).to(:solr_document) }
   it { is_expected.to delegate_method(:related_image_id).to(:solr_document) }
+  it { is_expected.to delegate_method(:created).to(:solr_document) }
 
   its(:title) { is_expected.to eq(["Sample Label"]) }
 

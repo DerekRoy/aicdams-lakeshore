@@ -1,4 +1,12 @@
 GIT
+  remote: git://github.com/knapo/jquery-inputmask-rails.git
+  revision: 20df4fa329da0235b1e2ae3f0e225ce33fcc029c
+  ref: 20df4fa3
+  specs:
+    jquery-inputmask-rails (0.4.0)
+      railties (>= 3.1)
+
+GIT
   remote: https://github.com/envato/aspect_ratio
   revision: 8096a805468a12ba775359cde04bb675f8a74dc2
   branch: master
@@ -721,6 +729,7 @@ DEPENDENCIES
   iiif_manifest (~> 0.1.2)
   jasmine
   jbuilder (~> 2.6)
+  jquery-inputmask-rails!
   jquery-rails
   pg
   poltergeist
