@@ -117,6 +117,15 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_copied_permissions do
+      after(:create) do |asset|
+        asset.file_sets.each do |fs|
+          fs.permissions_attributes = asset.permissions.map(&:to_hash)
+          fs.save
+        end
+      end
+    end
+
     trait :with_doctype_metadata do
       pref_label                   "Asset with doctype"
       description                  ["A sample asset with a complete listing of metadata"]

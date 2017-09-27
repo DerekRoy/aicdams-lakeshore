@@ -37,4 +37,10 @@ class CurationConcerns::GenericWorksController < ApplicationController
     def search_builder_class
       AssetSearchBuilder
     end
+
+    # Overrides Sufia to reload curation_concern so that removed permissions will be checked.
+    def permissions_changed?
+      curation_concern.reload
+      @saved_permissions != curation_concern.permissions.map(&:to_hash)
+    end
 end
