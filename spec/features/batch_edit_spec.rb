@@ -8,8 +8,6 @@ describe "Batch management of works", type: :feature do
   let!(:asset1)      { create(:asset, :with_metadata, pref_label: "Batch Asset 1") }
   let!(:asset2)      { create(:asset, :with_metadata, pref_label: "Batch Asset 2") }
 
-  before(:all) { LakeshoreTesting.restore }
-
   before do
     sign_in_with_named_js(:batch_edit, current_user, disable_animations: true)
     visit "/dashboard/shares"

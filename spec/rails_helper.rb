@@ -17,9 +17,6 @@ require 'spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'rspec/active_model/mocks'
-require 'active_fedora/cleaner'
-require 'database_cleaner'
-require 'factory_girl_rails'
 require 'devise'
 require 'webmock'
 require 'webmock/rspec'
@@ -37,29 +34,9 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = false
   config.infer_spec_type_from_file_location!
 
-  # Clean out everything and create required fixtures
-  config.before :suite do
-    LakeshoreTesting.restore
-  end
-
-  # Clean out everything before each feature test
-  config.before :each do |example|
-    LakeshoreTesting.restore if example.metadata[:type] == :feature
-  end
-
-  config.before :each do
-    DatabaseCleaner.strategy = :truncation
-    DatabaseCleaner.start
-  end
-
-  config.after do
-    DatabaseCleaner.clean
-  end
-
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Capybara::RSpecMatchers, type: :input
   config.include InputSupport, type: :input
-  config.include FactoryGirl::Syntax::Methods
   config.include SessionSupport, type: :feature
   config.include APISupport, type: :controller
   config.include CustomMatchers
@@ -89,12 +66,5 @@ Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec
     with.library :rails
-  end
-end
-
-module FactoryGirl
-  def self.find_or_create(handle, by = :email)
-    tmpl = FactoryGirl.build(handle)
-    tmpl.class.send("find_by_#{by}".to_sym, tmpl.send(by)) || FactoryGirl.create(handle)
   end
 end

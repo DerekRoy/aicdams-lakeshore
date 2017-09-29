@@ -14,8 +14,6 @@ describe 'curation_concerns/base/_form_share.html.erb' do
     Capybara::Node::Simple.new(rendered)
   end
 
-  before(:all) { LakeshoreTesting.restore }
-
   before { allow(controller).to receive(:current_user).and_return(user) }
 
   context "with generic works" do

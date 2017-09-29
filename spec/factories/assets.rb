@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :generic_work do
     transient do
-      user { FactoryGirl.create(:user1) }
+      user { User.find_by_email("user1") || FactoryGirl.create(:user1) }
     end
 
     after(:build) do |asset, evaluator|

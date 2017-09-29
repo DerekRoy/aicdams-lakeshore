@@ -2,7 +2,7 @@
 FactoryGirl.define do
   factory :private_collection, class: Collection do
     transient do
-      user { FactoryGirl.create(:user1) }
+      user { User.find_by_email("user1") || FactoryGirl.create(:user1) }
     end
 
     sequence(:title) { |n| ["Title #{n}"] }

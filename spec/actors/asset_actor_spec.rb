@@ -18,22 +18,20 @@ describe AssetActor do
     before { actor.create(parameters) }
 
     context "with a still image and full metadata" do
-      let(:deparment) { Department.find_by_citi_uid("100") }
       let(:parameters) do
         { "asset_type" => AICType.StillImage, "document_type_uri" => doc_type.uri }
       end
       it "creates the asset" do
         expect(subject.type).to include(AICType.StillImage)
-        expect(subject.dept_created).to eq(deparment)
       end
     end
 
     context "when overriding dept_created" do
-      let(:deparment) { Department.find_by_citi_uid("200") }
+      let(:department) { create(:department) }
       let(:parameters) do
-        { "asset_type" => AICType.StillImage, "document_type_uri" => doc_type.uri, "dept_created" => "200" }
+        { "asset_type" => AICType.StillImage, "document_type_uri" => doc_type.uri, "dept_created" => department.citi_uid }
       end
-      its(:dept_created) { is_expected.to eq(deparment) }
+      its(:dept_created) { is_expected.to eq(department) }
     end
 
     context "with a text type" do

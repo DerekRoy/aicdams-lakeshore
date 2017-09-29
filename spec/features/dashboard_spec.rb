@@ -2,13 +2,13 @@
 require 'rails_helper'
 
 describe "The dashboard" do
-  let(:user1)  { create(:user1) }
-  let(:user2)  { create(:user2) }
+  let!(:user1)  { create(:user1) }
+  let!(:user2)  { create(:user2) }
 
   let!(:asset)        { create(:asset, :with_metadata) }
   let!(:shared_asset) { create(:asset, :with_metadata, title: ["Shared asset"],
                                                        depositor: "user2",
-                                                       edit_users: ["user1"]) }
+                                                       edit_users: [user1]) }
 
   before { sign_in(user1) }
 

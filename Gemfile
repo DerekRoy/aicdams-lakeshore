@@ -29,7 +29,6 @@ group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
   gem 'coveralls', require: false
-  gem 'factory_girl_rails', require: false
   gem 'fcrepo_wrapper'
   gem 'jasmine'
   gem 'solr_wrapper'
@@ -47,6 +46,7 @@ end
 group :test do
   gem 'capybara', '~> 2.8'
   gem 'database_cleaner'
+  gem 'factory_girl_rails'
   gem 'poltergeist'
   gem 'rspec-activemodel-mocks'
   gem 'rspec-its'

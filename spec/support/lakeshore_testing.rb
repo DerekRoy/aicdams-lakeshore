@@ -1,4 +1,7 @@
 # frozen_string_literal: true
+
+require 'active_fedora/cleaner'
+
 class LakeshoreTesting
   class << self
     # Removes all resources from Fedora and Solr and restores
@@ -8,20 +11,8 @@ class LakeshoreTesting
       cleanout_redis
       reset_derivatives
       reset_uploads
-      create_minimal_resources
       ListManager.new(File.join(Rails.root, "config/lists/status.yml")).create
       ActiveFedora::Base.all.map(&:update_index)
-    end
-
-    def create_minimal_resources
-      FactoryGirl.create(:department100)
-      FactoryGirl.create(:department200)
-      FactoryGirl.create(:admins)
-      FactoryGirl.create(:aic_user1)
-      FactoryGirl.create(:aic_user2)
-      FactoryGirl.create(:aic_user3)
-      FactoryGirl.create(:aic_department_user)
-      FactoryGirl.create(:aic_admin)
     end
 
     def cleanout_redis
@@ -45,5 +36,17 @@ class LakeshoreTesting
       FileUtils.mkdir_p("#{Rails.root}/tmp/test-uploads")
       Sufia.config.upload_path = ->() { Rails.root + 'tmp' + 'test-uploads' }
     end
+  end
+end
+
+RSpec.configure do |config|
+  # Clean out everything and create required fixtures
+  config.before :suite do
+    LakeshoreTesting.restore
+  end
+
+  # Clean out everything before each feature test
+  config.before :each do |example|
+    LakeshoreTesting.restore if example.metadata[:type] == :feature
   end
 end

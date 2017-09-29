@@ -40,10 +40,12 @@ class Resource < ActiveFedora::Base
 
     def solr_relation_ids
       return [] if id.nil?
-      ActiveFedora::SolrService.query(
+      docs = ActiveFedora::SolrService.query(
         "id:#{id}",
         fl: "documents_ssim, preferred_representation_ssim, representations_ssim, attachments_ssim"
-      ).first.values.flatten
+      )
+      return [] if docs.empty?
+      docs.first.values.flatten
     end
 
     def attachment_ids

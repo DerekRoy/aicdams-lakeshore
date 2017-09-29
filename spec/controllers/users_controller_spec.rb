@@ -24,6 +24,7 @@ describe UsersController do
     end
     context "when searching both active and inactive users" do
       let(:json) { JSON.parse(response.body) }
+      before { create(:aic_user3) }
       it "searches for all AICUser resources" do
         get :index, uq: "user", q: "all", format: :json
         expect(json).to include("id" => "inactiveuser", "text" => "Third User (inactiveuser)")

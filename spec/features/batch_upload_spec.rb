@@ -7,8 +7,6 @@ describe "Batch upload" do
   before { sign_in_with_js(user) }
 
   context "when uploading a new asset" do
-    before { LakeshoreTesting.restore }
-
     it "enforces a workflow to ensure the asset is correctly ingested" do
       visit("/batch_uploads/new")
       # Intial state of the form
@@ -79,8 +77,6 @@ describe "Batch upload" do
   end
 
   context "with an external resoure" do
-    before { LakeshoreTesting.restore }
-
     it "creates a new asset without any local files" do
       visit("/batch_uploads/new")
       select("Still Image", from: "asset_type_select")

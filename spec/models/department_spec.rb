@@ -2,11 +2,10 @@
 require 'rails_helper'
 
 describe Department do
-  before(:all) { LakeshoreTesting.restore }
-
+  before { create(:department200) }
   describe "::options" do
     subject { described_class.options }
-    it { is_expected.to eq("Administrators" => "99", "Department 100" => "100", "Department 200" => "200") }
+    it { is_expected.to include("Department 200" => "200") }
   end
 
   describe "::find_by_department_key" do
