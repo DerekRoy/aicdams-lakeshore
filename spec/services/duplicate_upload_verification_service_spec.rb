@@ -2,27 +2,32 @@
 require 'rails_helper'
 
 describe DuplicateUploadVerificationService do
-  let(:user)          { create(:user) }
-  let(:file)          { File.open(File.join(fixture_path, "sun.png")) }
-  let(:uploaded_file) { Sufia::UploadedFile.create(file: file, user: user, use_uri: AICType.OriginalFileSet) }
-  let(:file_digest)   { "urn:sha1:d7feb9d33aaa99928d6f0c01c4663f801a297e2a" }
-  let(:service)       { described_class.new(uploaded_file) }
+  let(:uploaded_file)  { create(:uploaded_file) }
+  let(:service)        { described_class.new(uploaded_file) }
+  let(:file_digest)    { uploaded_file.checksum }
+  let(:asset)          { create(:asset) }
+  let(:duplicate_file) { double }
 
   subject { service.duplicates }
 
-  context "when no duplicates exist" do
-    before { allow(FileSet).to receive(:where).with(digest_ssim: file_digest).and_return([]) }
-    it { is_expected.to be_empty }
-  end
-
-  context "when duplicates exist" do
-    let(:asset) { create(:asset) }
-    let(:duplicate_file) { double }
-    before do
-      allow(duplicate_file).to receive(:parent).and_return(asset)
-      allow(FileSet).to receive(:where).with(digest_ssim: file_digest).and_return([duplicate_file])
+  describe "#duplicates" do
+    context "when no duplicates exist" do
+      before { allow(FileSet).to receive(:where).with(digest_ssim: file_digest).and_return([]) }
+      it "returns an empty array" do
+        is_expected.to be_empty
+      end
     end
-    it { is_expected.to contain_exactly(asset) }
+
+    context "when duplicates exist" do
+      before do
+        allow(duplicate_file).to receive(:parent).and_return(asset)
+        allow(FileSet).to receive(:where).with(digest_ssim: file_digest).and_return([duplicate_file])
+      end
+
+      it "returns the duplicate asset" do
+        is_expected.to contain_exactly(asset)
+      end
+    end
   end
 
   describe "::unique?" do
