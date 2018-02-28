@@ -4,6 +4,8 @@ development:
   hydra_bin_path: "/usr/local/bin"
   LAKESHORE_ENV: "local"
   LAKESHORE_DOMAIN: "localhost:3000"
+  user_notification_freq: "300"
+  phoenix_host: "https://phoenix-test.artic.edu"
 
 test:
   citi_api_uid: "citi_api_uid"
@@ -12,6 +14,8 @@ test:
   citi_api_ssl_verify: "false"
   hydra_bin_path: "/usr/local/bin"
   LAKESHORE_DOMAIN: "localhost:3000"
+  user_notification_freq: "30"
+  phoenix_host: "https://phoenix-test.artic.edu"
 
 production:
 
@@ -33,3 +37,4 @@ production:
   # is self-signed or is some another signing authority that is not in the system's certificate chain.
   # Note: verification will only be skipped if the value is set to "false". All other values evaluate to "true".
   citi_api_ssl_verify: "false"
+  user_notification_freq: "30"
