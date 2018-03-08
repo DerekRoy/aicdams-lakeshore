@@ -78,13 +78,16 @@ describe Lakeshore::Ingest do
     end
 
     context "with only an intermediate file" do
-      let(:content) { { intermediate: "intermediate file_set" } }
+      let(:content) { { intermediate: create(:image_file) } }
       it { is_expected.to contain_exactly(AICType.IntermediateFileSet) }
     end
 
     context "with original, intermediate, legacy, and preservation files" do
       let(:content) do
-        { original: "original file_set", pres_master: "preservation master file_set", intermediate: "intermediate file_set", legacy: "legacy file_set" }
+        { original: create(:original_upload),
+          pres_master: create(:presevation_master_upload),
+          intermediate: create(:intermediate_upload),
+          legacy: create(:legacy_upload) }
       end
       it { is_expected.to contain_exactly(AICType.OriginalFileSet,
                                           AICType.IntermediateFileSet,
@@ -94,10 +97,10 @@ describe Lakeshore::Ingest do
 
     context "with assorted other files" do
       let(:content) do
-        { "intermediate" => "intermediate file_set", "0" => "oddball 0", "1" => "oddball 1", "other" => "other" }
+        { "intermediate" => create(:intermediate_upload), "0" => create(:oddball_file1), "1" => create(:oddball_file2) }
       end
 
-      it { is_expected.to contain_exactly(AICType.IntermediateFileSet, nil, nil, nil) }
+      it { is_expected.to contain_exactly(AICType.IntermediateFileSet, nil, nil) }
     end
   end
 
@@ -108,7 +111,7 @@ describe Lakeshore::Ingest do
       let(:params) do
         {
           asset_type: "StillImage",
-          content: { intermediate: "file_set" },
+          content: { intermediate: create(:image_file) },
           metadata: { document_type_uri: "doc_type", depositor: user.email }
         }
       end
@@ -124,7 +127,7 @@ describe Lakeshore::Ingest do
       let(:params) do
         {
           asset_type: "StillImage",
-          content: { intermediate: "file_set" },
+          content: { intermediate: create(:image_file) },
           metadata: { document_type_uri: "doc_type", depositor: user.email },
           sharing: '[{ "type" : "group", "name" : "112", "access" : "read" }, {"type" : "person", "name" : "jdoe99", "access" : "edit"}]'
         }
@@ -145,7 +148,7 @@ describe Lakeshore::Ingest do
       let(:params) do
         {
           asset_type: "StillImage",
-          content: { intermediate: "file_set" },
+          content: { intermediate: create(:image_file) },
           metadata: { document_type_uri: "doc_type", depositor: user.email },
           sharing: '[{ "type" : "group", "name" : "112", "access" : "read" }, {"type" : "person", "name" : "' + user.email + '", "access" : "edit"}]'
         }

@@ -5,7 +5,7 @@ module Lakeshore
 
     attr_reader :ingestor, :submitted_asset_type, :document_type_uri, :original_file,
                 :intermediate_file, :presevation_master_file, :legacy_file, :additional_files, :params,
-                :preferred_representation_for
+                :preferred_representation_for, :batch_upload_id
 
     validates :ingestor, :asset_type, :document_type_uri, :intermediate_file, presence: true
 
@@ -13,6 +13,7 @@ module Lakeshore
     def initialize(params)
       @params = params
       @submitted_asset_type = params.fetch(:asset_type, nil)
+      @batch_upload_id = BatchUpload.create.id
       register_files(params.fetch(:content, {}))
       register_terms(params.fetch(:metadata, {}))
     end
@@ -94,33 +95,37 @@ module Lakeshore
         return unless original_file
         Sufia::UploadedFile.create(file: original_file,
                                    user: ingestor,
-                                   use_uri: AICType.OriginalFileSet).id.to_s
+                                   use_uri: AICType.OriginalFileSet,
+                                   batch_upload_id: batch_upload_id).id.to_s
       end
 
       def intermediate_upload
         return unless intermediate_file
         Sufia::UploadedFile.create(file: intermediate_file,
                                    user: ingestor,
-                                   use_uri: AICType.IntermediateFileSet).id.to_s
+                                   use_uri: AICType.IntermediateFileSet,
+                                   batch_upload_id: batch_upload_id).id.to_s
       end
 
       def presevation_master_upload
         return unless presevation_master_file
         Sufia::UploadedFile.create(file: presevation_master_file,
                                    user: ingestor,
-                                   use_uri: AICType.PreservationMasterFileSet).id.to_s
+                                   use_uri: AICType.PreservationMasterFileSet,
+                                   batch_upload_id: batch_upload_id).id.to_s
       end
 
       def legacy_upload
         return unless legacy_file
         Sufia::UploadedFile.create(file: legacy_file,
                                    user: ingestor,
-                                   use_uri: AICType.LegacyFileSet).id.to_s
+                                   use_uri: AICType.LegacyFileSet,
+                                   batch_upload_id: batch_upload_id).id.to_s
       end
 
       def additional_uploads
         additional_files.values.map do |file|
-          Sufia::UploadedFile.create(file: file, user: ingestor)
+          Sufia::UploadedFile.create(file: file, user: ingestor, batch_upload_id: batch_upload_id).id.to_s
         end
       end
   end
