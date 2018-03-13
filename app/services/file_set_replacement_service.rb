@@ -29,6 +29,7 @@ class FileSetReplacementService
 
   def replace(file_set)
     file_set.title = [file.file.file.original_filename]
+    file_set.depositor = user.email
     file_set.save!
     file_actor.new(file_set, "original_file", user).ingest_file(file.file)
     true
