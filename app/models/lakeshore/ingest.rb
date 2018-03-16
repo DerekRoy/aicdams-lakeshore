@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 module Lakeshore
   class Ingest
+    class AICUserNotFound < StandardError; end
+
     include ActiveModel::Validations
 
     attr_reader :ingestor, :submitted_asset_type, :document_type_uri, :original_file,
@@ -68,7 +70,7 @@ module Lakeshore
 
       def find_or_create_user(key)
         return unless key
-        return unless AICUser.find_by_nick(key).present?
+        raise(AICUserNotFound, "#{key} not found") unless AICUser.find_by_nick(key).present?
         User.find_by_user_key(key) || User.create!(email: key)
       end
 

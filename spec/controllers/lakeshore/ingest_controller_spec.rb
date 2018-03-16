@@ -183,7 +183,22 @@ describe Lakeshore::IngestController do
           asset.reload
         end
 
-        its(:title) { is_expected.to eq(["tardis.png"]) }
+        context "when depositor is the asset's depositor" do
+          its(:title) { is_expected.to eq(["tardis.png"]) }
+          it "returns a 202" do
+            expect(response).to have_http_status(202)
+          end
+        end
+
+        context "when depositor is another user in same department" do
+          let(:user2)    { create(:department_user) }
+          let(:metadata) { { "depositor" => user2.email } }
+
+          fit "returns a 202" do
+            expect(response).to have_http_status(202)
+          end
+        end
+
       end
     end
 
