@@ -3,6 +3,7 @@ require 'rails_helper'
 
 describe Lakeshore::Ingest do
   let(:user)              { create(:user1) }
+  let(:dept_user)         { create(:department_user) }
   let(:controller_params) { ActionController::Parameters.new(params) }
   let(:ingest)            { described_class.new(controller_params) }
 
@@ -109,7 +110,7 @@ describe Lakeshore::Ingest do
         {
           asset_type: "StillImage",
           content: { intermediate: "file_set" },
-          metadata: { document_type_uri: "doc_type", depositor: user.email }
+          metadata: { document_type_uri: "doc_type", depositor: dept_user.email }
         }
       end
 
@@ -117,7 +118,8 @@ describe Lakeshore::Ingest do
                                   document_type_uri: "doc_type",
                                   permissions_attributes: [],
                                   ingest_method: "api",
-                                  uploaded_files: ["1"])}
+                                  uploaded_files: ["1"],
+                                  depositor: "department_user")}
     end
 
     context "with custom sharing permissions" do
